@@ -207,6 +207,16 @@ body.locked { overflow: hidden; height: 100svh; }
   font-size: clamp(16px, 4.4vw, 19px);
   color: var(--green-soft);
   opacity: .9;
+  white-space: nowrap; /* script.js shrinks the font if a line is too wide */
+}
+.names .city {
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: clamp(14px, 3.8vw, 16px);
+  letter-spacing: .04em;
+  color: var(--green-soft);
+  opacity: .75;
+  margin-top: 2px;
 }
 
 /* arch page */

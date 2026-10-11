@@ -1,9 +1,11 @@
 // ===== Edit your invitation details here =====
 const CONFIG = {
-  bride: "Alisha",
   groom: "Husain",
-  groomParents: "Son of Mr. Abdul Habib Thekiya",
-  brideParents: "Daughter of Mr. Shakil Memon",
+  bride: "Dr. Alisha",
+  groomParents: "S/o Mr & Mrs Khairunnisa Abdul Habib Thekiya",
+  brideParents: "D/o Mr & Mrs Shabana Shakil Memon",
+  groomCity: "Mumbra Dist. Thane",
+  brideCity: "Chiplun Dist. Ratnagiri",
   nikah: {
     dateText: "Saturday, 02 Jan 2027",
     timeText: "4:00 pm to 8:00 pm",
@@ -46,6 +48,24 @@ document.querySelectorAll("[data-field-href]").forEach((el) => {
   el.href = getField(el.dataset.fieldHref);
 });
 document.title = `${CONFIG.groom.split(" ")[0]} & ${CONFIG.bride.split(" ")[0]} · ${isWalimaOnly ? "Walima" : "Nikah"}`;
+
+// ===== Keep parent lines on one line =====
+// Shrink both lines to the same size so the longer one fits the arch
+const parentLines = [...document.querySelectorAll(".names .parent")];
+function fitParentLines() {
+  parentLines.forEach((el) => (el.style.fontSize = ""));
+  const arch = document.querySelector(".arch");
+  if (!arch || !parentLines.length) return;
+  const pad = getComputedStyle(arch);
+  const maxWidth = arch.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight);
+  const scale = Math.min(1, ...parentLines.map((el) => maxWidth / el.scrollWidth));
+  if (scale < 1) {
+    const size = parseFloat(getComputedStyle(parentLines[0]).fontSize) * scale * 0.98;
+    parentLines.forEach((el) => (el.style.fontSize = `${Math.max(size, 11)}px`));
+  }
+}
+document.fonts.ready.then(fitParentLines);
+window.addEventListener("resize", fitParentLines);
 
 // ===== Envelope =====
 // Always start from the first page; don't restore the old scroll position on refresh
