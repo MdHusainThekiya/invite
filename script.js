@@ -23,6 +23,11 @@ const CONFIG = {
 // ===== Which invite: full (Nikah + Walima) or Walima-only =====
 // Walima-only with ?walima (the /walima link forwards here, see walima/index.html)
 const isWalimaOnly = new URLSearchParams(location.search).has("walima");
+
+// Show the clean /walima address instead of index.html?walima (refreshing it still works)
+if (isWalimaOnly && location.protocol !== "file:") {
+  history.replaceState(null, "", new URL("walima", location.href).pathname + location.hash);
+}
 const mode = isWalimaOnly ? "walima" : "nikah";
 
 // Drop whatever belongs to the other mode
